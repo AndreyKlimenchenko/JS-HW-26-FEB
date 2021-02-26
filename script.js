@@ -8,13 +8,15 @@ if(localStorage.getItem('todo')) {
     todoList = JSON.parse(localStorage.getItem('todo'));
     displayMessages();
 }
-
+let id = 0;
 addButton.addEventListener('click', function(){
     if(!addMessage.value) return;
+    id = id + 1;
     let newTodo = {
         todo: addMessage.value,
         checked: false,
-        important: false
+        important: false,
+        id: id
     };
     todoList.push(newTodo);
     displayMessages();
@@ -29,7 +31,7 @@ function displayMessages() {
         displayMessages += `
         <li>
             <input type='checkbox' id='item_${i}' ${item.checked ? 'checked' : ''}>
-            <label for='item_${i}' class="${item.important ? 'important' : ''}">${item.todo}</label>
+            <label id='${item.id}' for='item_${i}' class="${item.important ? 'important' : ''}">${item.todo}</label>
         </li>
         
         `;
@@ -43,6 +45,12 @@ todo.addEventListener('change', function(event){
     todoList.forEach(function(item){
         if(item.todo === valueLabel) {
             item.checked = !item.checked;
+            const element = document.getElementById(item.id);
+            if(item.checked) {
+                element.style.textDecoration = 'line-through';
+            }else {
+                element.style.textDecoration = 'none';
+            }
             localStorage.setItem('todo', JSON.stringify(todoList));
         }
     });
