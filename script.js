@@ -70,3 +70,11 @@ todo.addEventListener('contextmenu', function(event){
         }
     });
 });
+
+function deleteItems() {
+    localStorage.clear();
+    todoList.forEach(function(item, i){
+        todo.innerHTML = ''; 
+    });
+    todoList = [];
+}
